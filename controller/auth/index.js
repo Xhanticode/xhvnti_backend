@@ -3,16 +3,15 @@ const con = require("../../lib/db_connection");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-// LOGIN FUNCTION
-
-async function Login(req, res) {
+// Login fn
+async function Login (req, res) {
   console.log(req.body);
   try {
-    let sql = "SELECT * FROM users WHERE ?";
-    let user = {
+    let sql = "SELECT * FROM employees WHERE ?";
+    let employee = {
       email: req.body.email,
     };
-    con.query(sql, user, async (err, result) => {
+    con.query(sql, employee, async (err, result) => {
       if (err) throw err;
       if (result.length === 0) {
         res.status(400).json({
@@ -32,16 +31,16 @@ async function Login(req, res) {
           });
           console.log(isMatch);
         } else {
-          // The information the should be stored inside token
+          // The information that should be stored inside token
           const payload = {
-            user: {
+            employee: {
               id: result[0].id,
-              fullname: result[0].fullname,
+              name: result[0].name,
+              surname: result[0].surname,
               email: result[0].email,
-              userRole: result[0].userRole,
               phone: result[0].phone,
-              created: result[0].created,
-              cart: result[0].cart,
+              role: result[0].role,
+              created_at: result[0].created_at,
             },
           };
           // Creating a token and setting expiry date
@@ -56,7 +55,7 @@ async function Login(req, res) {
 
               res.json({ 
                 msg: "Login Successful",
-                user: payload.user,
+                employee: payload.employee,
                 token : token
                });
             }
@@ -71,35 +70,36 @@ async function Login(req, res) {
 
 
 
-// REGISTER FUNCTION
-async function Register(req, res) {
+// Register fn
+async function Register (req, res) {
   try {
-    let sql = `INSERT INTO users(fullname, email, password, userRole, phone, created) VALUES(? , ? , ? , ? , ? , ?);`;
+    let sql = `INSERT INTO employees(name, surname, email, phone, password, role, created_at) VALUES(? , ? , ? , ? , ? , ?);`;
     let date = new Date().toISOString().slice(0, 10);
-    let { fullname, email, password, userRole, phone } = req.body;
-    let cart;
-    if (userRole === "" || userRole === null) {
-      userRole = "user";
+    let { name, surname, email, phone, password, role, } = req.body;
+    if (role === "" || role === null) {
+      role = "general employee";
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-    let user = {
-      fullname: fullname,
+    let employee = {
+      name: name,
+      surname: surname,
       email: email,
-      password: hash,
-      userRole: userRole,
       phone: phone,
-      created: date,
+      password: hash,
+      role: role,
+      created_at: date,
     };
     con.query(
       sql,
       [
-        user.fullname,
-        user.email,
-        user.password,
-        user.userRole,
-        user.phone,
-        user.created,
+        employee.name,
+        employee.surname,
+        employee.email,
+        employee.phone,
+        employee.password,
+        employee.role,
+        employee.created_at,
       ],
       (err, result) => {
         if (err) throw err;
@@ -115,7 +115,7 @@ async function Register(req, res) {
   }
 }
 
-async function Verify(req, res) {
+async function Verify (req, res) {
   const token = req.header("x-auth-token");
   jwt.verify(token, process.env.jwtSecret, (error, decodedToken) => {
     if (error) {
