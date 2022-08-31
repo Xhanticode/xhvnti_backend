@@ -73,7 +73,7 @@ async function Login (req, res) {
 // Register fn
 async function Register (req, res) {
   try {
-    let sql = `INSERT INTO employees(name, surname, email, phone, password, role, created_at) VALUES(? , ? , ? , ? , ? , ?);`;
+    let sql = `INSERT INTO employees (name, surname, email, phone, password, role, created_at) VALUES(? , ? , ? , ? , ? , ?);`;
     let date = new Date().toISOString().slice(0, 10);
     let { name, surname, email, phone, password, role, } = req.body;
     if (role === "" || role === null) {
