@@ -46,7 +46,7 @@ async function Login (req, res) {
           // Creating a token and setting expiry date
           jwt.sign(
             payload,
-            process.env.jwtSecret,
+            process.env.SECRET_KEY,
             {
               expiresIn: "365d",
             },
@@ -73,9 +73,9 @@ async function Login (req, res) {
 // Register fn
 async function Register (req, res) {
   try {
-    let sql = `INSERT INTO employees (name, surname, email, phone, password, role, created_at) VALUES(? , ? , ? , ? , ? , ?);`;
-    let date = new Date().toISOString().slice(0, 10);
-    let { name, surname, email, phone, password, role, } = req.body;
+    let sql = `INSERT INTO employees SET ?`;
+    let date = new Date();
+    let { name, surname, email, phone, password, role, created_at=date } = req.body;
     if (role === "" || role === null) {
       role = "general employee";
     }
@@ -88,26 +88,22 @@ async function Register (req, res) {
       phone: phone,
       password: hash,
       role: role,
-      created_at: date,
+      created_at: created_at
     };
+    console.log(employee);
     con.query(
-      sql,
-      [
-        employee.name,
-        employee.surname,
-        employee.email,
-        employee.phone,
-        employee.password,
-        employee.role,
-        employee.created_at,
-      ],
+      sql,employee,
       (err, result) => {
         if (err) throw err;
         // console.log(result);
         // res.json(`User ${(user.fullname, user.email)} created successfully`);
-        res.json({
-          msg: "Regitration Successful",
-        });
+        
+        console.log(result)
+        res.send(result)
+
+        // res.json({
+        //   msg: "Regitration Successful",
+        // });
       }
     );
   } catch (error) {
