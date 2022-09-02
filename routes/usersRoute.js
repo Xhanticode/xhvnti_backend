@@ -37,13 +37,13 @@ router.delete("/:id", middleware, (req, res) => {
 
 // Register
 router.post("/register", (req, res) => {
-  return authController.Register(req, res);
+  return authController.userRegister(req, res);
 });
 
 // Login
 router.post("/login", (req, res) => {
   console.log(req.body);
-  return authController.Login(req, res);
+  return authController.userLogin(req, res);
 });
 
 // Verify

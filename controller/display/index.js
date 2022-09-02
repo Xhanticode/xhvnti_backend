@@ -19,7 +19,7 @@ async function getEmployees(req, res) {
 async function getSingleEmployee(req, res) {
   try {
     con.query(
-      `SELECT * FROM employees where employee_id= ${req.params.id} `,
+      `SELECT * FROM employees where employee_id="${req.params.id}" `,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -47,7 +47,7 @@ async function getUsers(req, res) {
 async function getSingleUser(req, res) {
   try {
     con.query(
-      `SELECT * FROM users where user_id= ${req.params.id} `,
+      `SELECT * FROM users where user_id="${req.params.id}" `,
       (err, result) => {
         if (err) throw err;
         res.send(result);

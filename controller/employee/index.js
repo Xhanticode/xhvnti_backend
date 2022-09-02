@@ -34,7 +34,7 @@ async function editEmployee(req, res) {
   const hash = bcrypt.hashSync(password, salt);
   try {
     con.query(
-      `UPDATE employees SET name="${name}",surname="${surname}",email="${email}",phone="${phone}",password="${hash}",role="${role}",created_at="${created_at}" WHERE id= ${req.params.id}`,
+      `UPDATE employees SET name="${name}",surname="${surname}",email="${email}",phone="${phone}",password="${hash}",role="${role}",created_at="${created_at}" WHERE employee_id="${req.params.id}"`,
       (err, result) => {
         if (err) throw err;
         res.send(result);

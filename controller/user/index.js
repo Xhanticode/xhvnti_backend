@@ -34,7 +34,7 @@ async function editUser(req, res) {
   const hash = bcrypt.hashSync(password, salt);
   try {
     con.query(
-      `UPDATE users SET name="${name}",surname="${surname}", email="${email}", phone="${phone}", password="${hash}", shipping_address="${shipping_address}", cart="${cart}", created_at="${created_at}" WHERE id= ${req.params.id}`,
+      `UPDATE users SET name="${name}",surname="${surname}", email="${email}", phone="${phone}", password="${hash}", shipping_address="${shipping_address}", cart="${cart}", created_at="${created_at}" WHERE user_id="${req.params.id}"`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -101,7 +101,7 @@ async function addCartItem(req, res) {
         // res.send(cart)
         const strQuery = `UPDATE users
       SET cart = ?
-      WHERE (user_id = ${req.user.user_id})`;
+      WHERE (user_id ="${req.user.user_id}")`;
         con.query(strQuery, JSON.stringify(cart), (err) => {
           if (err) throw err;
           res.json({

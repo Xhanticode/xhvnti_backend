@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
 
 //Add an employee
 router.post("/", (req, res) => {
-  return userController.addEmployee(req, res);
+  return employeeController.addEmployee(req, res);
 });
 
 // Get single employee

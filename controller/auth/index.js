@@ -40,9 +40,9 @@ async function employeeLogin (req, res) {
               email: result[0].email,
               phone: result[0].phone,
               role: result[0].role,
-              created_at: result[0].created_at,
             },
           };
+          console.log(payload)
           // Creating a token and setting expiry date
           jwt.sign(
             payload,
@@ -53,10 +53,8 @@ async function employeeLogin (req, res) {
             (err, token) => {
               if (err) throw err;
 
-              res.json({ 
-                msg: "Login Successful",
-                employee: payload.employee,
-                token : data.token
+              res.json({
+                token :token
                });
             }
           );
@@ -105,7 +103,6 @@ async function userLogin (req, res) {
               phone: result[0].phone,
               shipping_address: result[0].shipping_address,
               cart: result[0].cart,
-              created_at: result[0].created_at,
             },
           };
           // Creating a token and setting expiry date
@@ -176,10 +173,9 @@ async function userRegister (req, res) {
   try {
     let sql = `INSERT INTO users SET ?`;
     let date = new Date();
-    let { name, surname, email, phone, password, shipping_address, created_at=date } = req.body;
-    if (role === "" || role === null) {
-      role = "general employee";
-    }
+    console.log(date)
+    let { name, surname, email, phone, password, shipping_address, cart, created_at=date } = req.body;
+   
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     let user = {
