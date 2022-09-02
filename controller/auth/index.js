@@ -115,11 +115,7 @@ async function userLogin (req, res) {
             (err, token) => {
               if (err) throw err;
 
-              res.json({ 
-                msg: "Login Successful",
-                user: payload.user,
-                token : data.token
-               });
+              res.json({token});
             }
           );
         }
