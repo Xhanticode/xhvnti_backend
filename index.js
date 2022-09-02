@@ -16,9 +16,11 @@ app.get("/", (req, res) => {
 });
 
 const employeesRoute = require("./routes/employeesRoute");
+const usersRoute = require("./routes/usersRoute");
 const productsRoute = require("./routes/productsRoute");
 
 app.use("/employees", employeesRoute);
+app.use("/users", usersRoute);
 app.use("/products", productsRoute);
 
 app.listen(app.get("port"), () => {

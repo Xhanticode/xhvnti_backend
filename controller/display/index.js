@@ -19,7 +19,35 @@ async function getEmployees(req, res) {
 async function getSingleEmployee(req, res) {
   try {
     con.query(
-      `SELECT * FROM employees where id= ${req.params.id} `,
+      `SELECT * FROM employees where employee_id= ${req.params.id} `,
+      (err, result) => {
+        if (err) throw err;
+        res.send(result);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+}
+// Get all users
+async function getUsers(req, res) {
+  try {
+    let sql = "SELECT * FROM users";
+    con.query(sql, (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// Get single user
+async function getSingleUser(req, res) {
+  try {
+    con.query(
+      `SELECT * FROM users where user_id= ${req.params.id} `,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -47,7 +75,7 @@ async function getSingleEmployee(req, res) {
 async function SingleProduct(req, res) {
   try {
     con.query(
-      `SELECT * FROM products where id = ${req.params.id} `,
+      `SELECT * FROM products where product_id = ${req.params.id} `,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -62,6 +90,8 @@ async function SingleProduct(req, res) {
 module.exports = {
   getEmployees,
   getSingleEmployee,
+  getUsers,
+  getSingleUser,
   getProducts,
   SingleProduct,
 };

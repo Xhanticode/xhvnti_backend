@@ -26,20 +26,20 @@ router.put("/:id", (req, res) => {
   return userController.editEmployee(req, res);
 });
 
-// DELETE A USER
+// Delete an employee
 router.delete("/:id", middleware, (req, res) => {
   return userController.deleteEmployee(req, res);
 });
 
 // Register
 router.post("/register", (req, res) => {
-  return authController.Register(req, res);
+  return authController.employeeRegister(req, res);
 });
 
 // Login
 router.post("/login", (req, res) => {
   console.log(req.body);
-  return authController.Login(req, res);
+  return authController.employeeLogin(req, res);
 });
 
 // Verify
@@ -47,36 +47,18 @@ router.get("/employees/verify", (req, res) => {
   return authController.Verify(req, res);
 });
 
-// FORGOT PASSWORD
-router.post("/forgot-psw", (req, res) => {
-  return passController.forgotPsw(req, res);
+// Forgot password
+router.post("/forgot_employee_psw", (req, res) => {
+  return passController.forgotEmployeePsw(req, res);
 });
 
-// Rest Password Route
-
-router.put("/reset-psw/:id", (req, res) => {
-  return passController.resetPsw(req, res);
-});
-
-// cart
-// VIEW CART
-router.get("/:id/cart", (req, res) => {
-  return userController.getCartItems(req, res);
+// Reset Password
+router.put("/reset_employee_psw/:id", (req, res) => {
+  return passController.resetEmployeePsw(req, res);
 });
 
 router.patch("/:id", (req, res) => {
   return userController.editUser(req, res);
-});
-
-router.delete(":/id/cart", (req, res) => {
-  return userController.deleteCartItem(req, res);
-});
-
-router.patch(":/id/cart/_id", (req, res) => {
-  return userController.clearCartItems(req, res);
-});
-router.put(":/id/cart", (req, res) => {
-  return userController.editCart(req, res);
 });
 
 module.exports = router;

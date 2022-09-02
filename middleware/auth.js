@@ -12,9 +12,10 @@ module.exports = function (req, res, next) {
 
   try {
     // Decoding the token and getting user attached to the token
-    const decoded = jwt.verify(token, process.env.jwtSecret);
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
     // Storing User data in req.user
+    req.employee = decoded.employee;
     req.user = decoded.user;
     next();
   } catch (err) {
