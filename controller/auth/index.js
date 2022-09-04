@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const con = require("../../lib/db_connection");
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
 // Employee login
@@ -46,16 +46,14 @@ async function employeeLogin (req, res) {
           // Creating a token and setting expiry date
           jwt.sign(
             payload,
-            process.env.SECRET_KEY,
+            process.env.jwtSecret,
             {
               expiresIn: "365d",
             },
             (err, token) => {
               if (err) throw err;
 
-              res.json({
-                token :token
-               });
+              res.json({ token });
             }
           );
         }
@@ -108,14 +106,14 @@ async function userLogin (req, res) {
           // Creating a token and setting expiry date
           jwt.sign(
             payload,
-            process.env.SECRET_KEY,
+            process.env.jwtSecret,
             {
               expiresIn: "365d",
             },
             (err, token) => {
               if (err) throw err;
 
-              res.json({token});
+              res.json({ token });
             }
           );
         }
@@ -132,11 +130,18 @@ async function userLogin (req, res) {
 async function employeeRegister (req, res) {
   try {
     let sql = `INSERT INTO employees SET ?`;
-    let date = new Date();
-    let { name, surname, email, phone, password, role, created_at=date } = req.body;
-    if (role === "" || role === null) {
-      role = "general employee";
-    }
+    var today = new Date();
+    var DD = String(today.getDate()).padStart(2, '0');
+    var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var YYYY = today.getFullYear();
+    var hh = today.getHours();
+    var mm = today.getMinutes();
+    var ss = today.getSeconds();
+    today = YYYY + '-' + MM + '-' + DD + ' ' + hh +':'+ mm +':'+ ss;
+    let { name, surname, email, phone, password, role, created_at } = req.body;
+    // if (role === "" || role === null) {
+    //   role = "general employee";
+    // }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     let employee = {
@@ -146,7 +151,7 @@ async function employeeRegister (req, res) {
       phone: phone,
       password: hash,
       role: role,
-      created_at: created_at
+      created_at: today
     };
     console.log(employee);
     con.query( sql, employee, (err, result) => {
@@ -168,9 +173,16 @@ async function employeeRegister (req, res) {
 async function userRegister (req, res) {
   try {
     let sql = `INSERT INTO users SET ?`;
-    let date = new Date();
-    console.log(date)
-    let { name, surname, email, phone, password, shipping_address, cart, created_at=date } = req.body;
+    // let date = new Date();
+    var today = new Date();
+    var DD = String(today.getDate()).padStart(2, '0');
+    var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var YYYY = today.getFullYear();
+    var hh = today.getHours();
+    var mm = today.getMinutes();
+    var ss = today.getSeconds();
+    today = YYYY + '-' + MM + '-' + DD + ' ' + hh +':'+ mm +':'+ ss;
+    let { name, surname, email, phone, password, shipping_address, cart, created_at } = req.body;
    
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
@@ -182,7 +194,7 @@ async function userRegister (req, res) {
       password: hash,
       shipping_address: shipping_address,
       cart: cart,
-      created_at: created_at
+      created_at: today
     };
     console.log(user);
     con.query( sql, user, (err, result) => {
@@ -204,8 +216,9 @@ async function userRegister (req, res) {
 async function Verify (req, res) {
   const token = req.header("x-auth-token");
   console.log(token)
-  jwt.verify(token, process.env.SECRET_KEY, (error, decodedToken) => {
+  jwt.verify(token, process.env.jwtSecret, (error, decodedToken) => {
     if (error) {
+      console.log(error)
       res.status(401).json({
         msg: "Unauthorized Access!",
        
