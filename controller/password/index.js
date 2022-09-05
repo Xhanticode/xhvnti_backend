@@ -19,8 +19,8 @@ async function forgotEmployeePsw(req, res) {
           host: "smtp.ethereal.email",
           port: 587,
           auth: {
-            user: "sierra7@ethereal.email",
-            pass: "khJPKTuJNd1zVYGWJT",
+            user: "weston.muller@ethereal.email",
+            pass: "JYwCWyjqS1XgAvxHc9",
           },
         });
 
