@@ -15,8 +15,7 @@ async function addUser(req, res) {
         phone,
         password,
         shipping_address,
-        cart,
-        created_at) values ("${name}","${surname}","${email}","${phone}","${password}","${shipping_address}","${cart}","${created_at}")`,
+        cart) values ("${name}","${surname}","${email}","${phone}","${password}","${shipping_address}","${cart}")`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -28,13 +27,13 @@ async function addUser(req, res) {
 }
 // Edit user
 async function editUser(req, res) {
-  const { name, surname, email, phone, password, shipping_address, cart, created_at, } =
+  const { name, surname, email, phone, password, shipping_address, cart } =
     req.body;
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
   try {
     con.query(
-      `UPDATE users SET name="${name}",surname="${surname}", email="${email}", phone="${phone}", password="${hash}", shipping_address="${shipping_address}", cart="${cart}", created_at="${created_at}" WHERE user_id="${req.params.id}"`,
+      `UPDATE users SET name="${name}",surname="${surname}", email="${email}", phone="${phone}", password="${hash}", shipping_address="${shipping_address}", cart="${cart}" WHERE user_id="${req.params.id}"`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -94,7 +93,6 @@ async function addCartItem(req, res) {
           description: results[0].description,
           img: results[0].img,
           collection: results[0].collection,
-          created_at: results[0].created_at,
         };
 
         cart.push(product);

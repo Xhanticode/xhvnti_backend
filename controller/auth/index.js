@@ -146,22 +146,13 @@ async function updateEmployee (req, res) {
         let updateSql = `UPDATE employees SET ? WHERE employee_id = ${req.params.id}`;
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(req.body.password, salt);
-        var today = new Date();
-        var DD = String(today.getDate()).padStart(2, '0');
-        var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var YYYY = today.getFullYear();
-        var hh = today.getHours();
-        var mm = today.getMinutes();
-        var ss = today.getSeconds();
-        today = YYYY + '-' + MM + '-' + DD + ' ' + hh +':'+ mm +':'+ ss;
         let updateEmployee = {
           name: req.body.name,
           surname: req.body.surname,
           email: req.body.email,
           phone: req.body.phone,
           password: hash,
-          role: req.body.role,
-          created_at: today
+          role: req.body.role
         };
         con.query(updateSql, updateEmployee, (err, updated) => {
           if (err) throw err;
@@ -190,22 +181,13 @@ async function updateUser (req, res) {
         let updateSql = `UPDATE users SET ? WHERE user_id = ${req.params.id}`;
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(req.body.password, salt);
-        var today = new Date();
-        var DD = String(today.getDate()).padStart(2, '0');
-        var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var YYYY = today.getFullYear();
-        var hh = today.getHours();
-        var mm = today.getMinutes();
-        var ss = today.getSeconds();
-        today = YYYY + '-' + MM + '-' + DD + ' ' + hh +':'+ mm +':'+ ss;
         let updateUser = {
           name: req.body.name,
           surname: req.body.surname,
           email: req.body.email,
           phone: req.body.phone,
           password: hash,
-          shipping_address: req.body.shipping_address,
-          created_at: today
+          shipping_address: req.body.shipping_address
         };
         con.query(updateSql, updateUser, (err, updated) => {
           if (err) throw err;
@@ -225,15 +207,7 @@ async function updateUser (req, res) {
 async function employeeRegister (req, res) {
   try {
     let sql = `INSERT INTO employees SET ?`;
-    var today = new Date();
-    var DD = String(today.getDate()).padStart(2, '0');
-    var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var YYYY = today.getFullYear();
-    var hh = today.getHours();
-    var mm = today.getMinutes();
-    var ss = today.getSeconds();
-    today = YYYY + '-' + MM + '-' + DD + ' ' + hh +':'+ mm +':'+ ss;
-    let { name, surname, email, phone, password, role, created_at } = req.body;
+    let { name, surname, email, phone, password, role } = req.body;
     // if (role === "" || role === null) {
     //   role = "general employee";
     // }
@@ -246,7 +220,6 @@ async function employeeRegister (req, res) {
       phone: phone,
       password: hash,
       role: role,
-      created_at: today
     };
     console.log(employee);
     con.query( sql, employee, (err, result) => {
@@ -268,16 +241,7 @@ async function employeeRegister (req, res) {
 async function userRegister (req, res) {
   try {
     let sql = `INSERT INTO users SET ?`;
-    // let date = new Date();
-    var today = new Date();
-    var DD = String(today.getDate()).padStart(2, '0');
-    var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var YYYY = today.getFullYear();
-    var hh = today.getHours();
-    var mm = today.getMinutes();
-    var ss = today.getSeconds();
-    today = YYYY + '-' + MM + '-' + DD + ' ' + hh +':'+ mm +':'+ ss;
-    let { name, surname, email, phone, password, shipping_address, cart, created_at } = req.body;
+    let { name, surname, email, phone, password, shipping_address, cart} = req.body;
    
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
@@ -288,8 +252,7 @@ async function userRegister (req, res) {
       phone: phone,
       password: hash,
       shipping_address: shipping_address,
-      cart: cart,
-      created_at: today
+      cart: cart
     };
     console.log(user);
     con.query( sql, user, (err, result) => {

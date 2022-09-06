@@ -15,8 +15,7 @@ async function addEmployee(req, res) {
         email,
         phone,
         password,
-        role,
-        created_at,) values ("${name}","${surname}","${email}","${phone}","${password}","${role}","${created_at}")`,
+        role,) values ("${name}","${surname}","${email}","${phone}","${password}","${role}")`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -26,24 +25,24 @@ async function addEmployee(req, res) {
     console.log(error);
   }
 }
-// Edit employee
-async function editEmployee(req, res) {
-  const { name, surname, email, phone, password, created_at } =
-    req.body;
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(password, salt);
-  try {
-    con.query(
-      `UPDATE employees SET name="${name}",surname="${surname}",email="${email}",phone="${phone}",password="${hash}",role="${role}",created_at="${created_at}" WHERE employee_id="${req.params.id}"`,
-      (err, result) => {
-        if (err) throw err;
-        res.send(result);
-      }
-    );
-  } catch (error) {
-    console.log(error);
-  }
-}
+// // Edit employee
+// async function editEmployee(req, res) {
+//   const { name, surname, email, phone, password, created_at } =
+//     req.body;
+//   const salt = bcrypt.genSaltSync(10);
+//   const hash = bcrypt.hashSync(password, salt);
+//   try {
+//     con.query(
+//       `UPDATE employees SET name="${name}",surname="${surname}",email="${email}",phone="${phone}",password="${hash}",role="${role}",created_at="${created_at}" WHERE employee_id="${req.params.id}"`,
+//       (err, result) => {
+//         if (err) throw err;
+//         res.send(result);
+//       }
+//     );
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 //Delete employee
 async function deleteEmployee(req, res) {
@@ -63,7 +62,7 @@ async function deleteEmployee(req, res) {
 
 
 module.exports = {
-  editEmployee,
+  // editEmployee,
   deleteEmployee,
   addEmployee,
 };
