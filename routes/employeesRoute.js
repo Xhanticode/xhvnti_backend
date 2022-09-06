@@ -21,8 +21,8 @@ router.get("/:id", (req, res) => {
   return displayController.getSingleEmployee(req, res);
 });
 
-//Edit an employee
-router.put("/update/:id", (req, res) => {
+//Update an employee
+router.patch("/update/:id", (req, res) => {
   return authController.updateEmployee(req, res);
 });
 
