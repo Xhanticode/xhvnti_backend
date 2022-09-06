@@ -22,13 +22,13 @@ router.get("/:id", (req, res) => {
 });
 
 //Edit an employee
-router.put("/:id", (req, res) => {
-  return userController.editEmployee(req, res);
+router.put("/update/:id", (req, res) => {
+  return authController.updateEmployee(req, res);
 });
 
 // Delete an employee
 router.delete("/:id", middleware, (req, res) => {
-  return userController.deleteEmployee(req, res);
+  return employeeController.deleteEmployee(req, res);
 });
 
 // Register

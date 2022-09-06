@@ -22,9 +22,9 @@ router.get("/:id", (req, res) => {
   return displayController.getSingleUser(req, res);
 });
 
-//Edit an user
-router.put("/:id", (req, res) => {
-  return userController.editUser(req, res);
+//Edit user
+router.put("/update/:id", (req, res) => {
+  return authController.updateUser(req, res);
 });
 router.patch("/:id", (req, res) => {
     return userController.editUser(req, res);

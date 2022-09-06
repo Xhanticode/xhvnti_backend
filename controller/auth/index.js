@@ -124,7 +124,102 @@ async function userLogin (req, res) {
   }
 }
 
+// Employee logout 
+async function employeeLogout (req, res) {
 
+}
+
+// User logout 
+async function userLogout (req, res) {
+
+}
+// Employee update 
+async function updateEmployee (req, res) {
+  try {
+    let sql = "SELECT * FROM employees WHERE ?";
+    let employee = {
+      employee_id: req.params.id,
+    };
+    con.query(sql, employee, (err, result) => {
+      if (err) throw err;
+      if (result.length !== 0) {
+        let updateSql = `UPDATE employees SET ? WHERE employee_id = ${req.params.id}`;
+        let salt = bcrypt.genSaltSync(10);
+        let hash = bcrypt.hashSync(req.body.password, salt);
+        var today = new Date();
+        var DD = String(today.getDate()).padStart(2, '0');
+        var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var YYYY = today.getFullYear();
+        var hh = today.getHours();
+        var mm = today.getMinutes();
+        var ss = today.getSeconds();
+        today = YYYY + '-' + MM + '-' + DD + ' ' + hh +':'+ mm +':'+ ss;
+        let updateEmployee = {
+          name: req.body.name,
+          surname: req.body.surname,
+          email: req.body.email,
+          phone: req.body.phone,
+          password: hash,
+          role: req.body.role,
+          created_at: today
+        };
+        con.query(updateSql, updateEmployee, (err, updated) => {
+          if (err) throw err;
+          console.log(updated);
+          res.send("Successfully Updated");
+        });
+      } else {
+        res.send("Employee not found");
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// User update 
+async function updateUser (req, res) {
+  try {
+    let sql = "SELECT * FROM users WHERE ?";
+    let user = {
+      user_id: req.params.id,
+    };
+    con.query(sql, user, (err, result) => {
+      if (err) throw err;
+      if (result.length !== 0) {
+        let updateSql = `UPDATE users SET ? WHERE user_id = ${req.params.id}`;
+        let salt = bcrypt.genSaltSync(10);
+        let hash = bcrypt.hashSync(req.body.password, salt);
+        var today = new Date();
+        var DD = String(today.getDate()).padStart(2, '0');
+        var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var YYYY = today.getFullYear();
+        var hh = today.getHours();
+        var mm = today.getMinutes();
+        var ss = today.getSeconds();
+        today = YYYY + '-' + MM + '-' + DD + ' ' + hh +':'+ mm +':'+ ss;
+        let updateUser = {
+          name: req.body.name,
+          surname: req.body.surname,
+          email: req.body.email,
+          phone: req.body.phone,
+          password: hash,
+          shipping_address: req.body.shipping_address,
+          created_at: today
+        };
+        con.query(updateSql, updateUser, (err, updated) => {
+          if (err) throw err;
+          console.log(updated);
+          res.send("Successfully Updated");
+        });
+      } else {
+        res.send("User not found");
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // Employee register
 async function employeeRegister (req, res) {
@@ -233,6 +328,10 @@ async function Verify (req, res) {
 module.exports = {
   employeeLogin,
   userLogin,
+  employeeLogout,
+  userLogout,
+  updateEmployee,
+  updateUser,
   employeeRegister,
   userRegister,
   Verify,
