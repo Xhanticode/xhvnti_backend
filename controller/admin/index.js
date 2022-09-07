@@ -10,38 +10,35 @@ async function addProduct(req, res) {
     title,
     img,
     price,
-    color,
+    colour,
     description,
     qty,
-    collection,
-    user_id,
-  } = req.body;
+    collection} = req.body;
   try {
     con.query(
-      
       `INSERT INTO products (
         title,
         img,
         price,
-        color,
+        colour,
         description,
         qty,
-        collection,
-        user_id) VALUES ( "${title}", ${img}", "${price}", ${color}", "${description}", "${qty}", "${collection}", ${price}", "${user_id}" )`,
+        collection) VALUES ( "${title}", "${img}", "${price}", "${colour}", "${description}", "${qty}", "${collection}" )`,
       (err, result) => {
         if (err) throw err;
-        res.send("product successfully created");
+        res.send(result);
       }
     );
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
-  }}
+  }
+}
   
 
 // Edit product
 async function editProduct(req, res) {
-  if (req.user.userRole === "admin" || req.user.userRole === "user") {
+  if (req.employee.role === "admin") {
     try {
       let sql = "SELECT * FROM products WHERE ? ";
       let product = { id: req.params.id };
@@ -73,7 +70,7 @@ async function editProduct(req, res) {
 }
 
 async function deleteProduct(req, res) {
-  if (req.user.userRole === "admin")
+  if (req.employee.role === "admin")
     try {
       let sql = "Delete from products WHERE ?";
       let product = { id: req.params.id };

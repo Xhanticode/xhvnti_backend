@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const con = require("../lib/db_connection");
 const middleware = require("../middleware/auth");
 const adminController = require("../controller/admin/index");
 const displayController = require("../controller/display/index");
@@ -10,14 +9,14 @@ router.get("/", (req, res) => {
   return displayController.getProducts(req, res);
 });
 
-//Add a product
-router.post("/",  (req, res) => {
-  return adminController.addProduct(req, res);
-});
-
 // Get single product
 router.get("/:id", (req, res) => {
   return displayController.SingleProduct(req, res);
+});
+
+//Add a product
+router.post("/",  (req, res) => {
+  return adminController.addProduct(req, res);
 });
 
 //Edit product
