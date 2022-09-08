@@ -38,7 +38,6 @@ async function addProduct(req, res) {
 
 // Edit product
 async function editProduct(req, res) {
-  if (req.employee.role === "admin") {
     try {
       let sql = "SELECT * FROM products WHERE ? ";
       let product = { id: req.params.id };
@@ -67,14 +66,12 @@ async function editProduct(req, res) {
     } catch (error) {
       console.log(error);
     }
-  }
 }
 
 async function deleteProduct(req, res) {
-  if (req.employee.role === "admin")
     try {
-      let sql = "Delete from products WHERE ?";
       let product = { id: req.params.id };
+      let sql = `DELETE FROM products WHERE product_id = "${req.params.id}"`;
       con.query(sql, product, (err, result) => {
         if (err) throw err;
         res.send(result);

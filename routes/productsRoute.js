@@ -20,12 +20,12 @@ router.post("/",  (req, res) => {
 });
 
 //Edit product
-router.patch("/update/:id", middleware, (req, res) => {
+router.patch("/update/:id", (req, res) => {
   return adminController.editProduct(req, res);
 });
 
 // Delete product
-router.delete("/:id", middleware, (req, res) => {
+router.delete("delete/:id", (req, res) => {
   return adminController.deleteProduct(req, res);
 });
 module.exports = router;
