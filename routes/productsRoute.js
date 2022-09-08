@@ -20,7 +20,7 @@ router.post("/",  (req, res) => {
 });
 
 //Edit product
-router.put("/:id", middleware, (req, res) => {
+router.patch("/:id", middleware, (req, res) => {
   return adminController.editProduct(req, res);
 });
 

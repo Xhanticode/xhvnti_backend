@@ -57,6 +57,7 @@ async function editProduct(req, res) {
           };
           con.query(updateSql, updateProduct, (err, updated) => {
             if (err) throw err;
+            res.send(updated);
             res.send("Successfully updated Product");
           });
         } else {
