@@ -57,8 +57,8 @@ router.put("/reset_employee_psw/:id", (req, res) => {
   return passController.resetEmployeePsw(req, res);
 });
 
-router.patch("/:id", (req, res) => {
-  return userController.editUser(req, res);
-});
+// router.patch("/:id", (req, res) => {
+//   return userController.editUser(req, res);
+// });
 
 module.exports = router;
