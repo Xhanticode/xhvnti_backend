@@ -192,6 +192,7 @@ async function updateUser (req, res) {
         con.query(updateSql, updateUser, (err, updated) => {
           if (err) throw err;
           console.log(updated);
+          res.send(result);
           res.send("Successfully Updated");
         });
       } else {

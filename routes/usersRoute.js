@@ -22,13 +22,10 @@ router.get("/:id", (req, res) => {
   return displayController.getSingleUser(req, res);
 });
 
-//Edit user
-router.put("/update/:id", (req, res) => {
+//Update user
+router.patch("/update/:id", (req, res) => {
   return authController.updateUser(req, res);
 });
-router.patch("/:id", (req, res) => {
-    return userController.editUser(req, res);
-  });
 
 // Delete user
 router.delete("/:id", middleware, (req, res) => {
