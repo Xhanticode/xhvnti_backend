@@ -72,11 +72,12 @@ async function editProduct(req, res) {
 
 async function deleteProduct(req, res) {
     try {
-      let product = { id: req.params.id };
-      let sql = `DELETE FROM products WHERE product_id = "${req.params.id}"`;
-      con.query(sql, product, (err, result) => {
+      con.query(
+        `DELETE FROM products WHERE product_id="${req.params.id}"`, 
+        (err, result) => {
         if (err) throw err;
         res.send(result);
+        console.log("Product successfully deleted")
       });
     } catch (error) {
       console.log(error);

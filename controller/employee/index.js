@@ -52,6 +52,7 @@ async function deleteEmployee(req, res) {
       (err, result) => {
         if (err) throw err;
         res.send(result);
+        console.log("Employee succesfully deleted!")
       }
     );
   } catch (error) {

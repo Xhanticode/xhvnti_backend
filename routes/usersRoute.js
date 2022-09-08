@@ -28,7 +28,7 @@ router.patch("/update/:id", (req, res) => {
 });
 
 // Delete user
-router.delete("/:id", middleware, (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   return userController.deleteUser(req, res);
 });
 

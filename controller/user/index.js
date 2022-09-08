@@ -52,10 +52,11 @@ async function editUser(req, res) {
 async function deleteUser(req, res) {
   try {
     con.query(
-      `DELETE FROM users  WHERE user_id="${req.params.id}"`,
+      `DELETE FROM users WHERE user_id="${req.params.id}"`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
+        console.log("User succesfully deleted!")
       }
     );
   } catch (error) {

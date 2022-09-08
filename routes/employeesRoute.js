@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const middleware = require("../middleware/auth");
 const authController = require("../controller/auth/index");
+const employeeController = require("../controller/employee/index");
 const passController = require("../controller/password/index");
 const displayController = require("../controller/display/index");
-const userController = require("../controller/user/index");
 
 // Get employees
 router.get("/", (req, res) => {
@@ -27,7 +27,7 @@ router.patch("/update/:id", (req, res) => {
 });
 
 // Delete an employee
-router.delete("/:id", middleware, (req, res) => {
+router.delete("/delete/:id", middleware, (req, res) => {
   return employeeController.deleteEmployee(req, res);
 });
 
