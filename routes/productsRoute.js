@@ -25,7 +25,7 @@ router.patch("/update/:id", (req, res) => {
 });
 
 // Delete product
-router.delete("delete/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   return adminController.deleteProduct(req, res);
 });
 module.exports = router;

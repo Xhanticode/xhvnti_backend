@@ -40,7 +40,7 @@ async function addProduct(req, res) {
 async function editProduct(req, res) {
     try {
       let sql = "SELECT * FROM products WHERE ? ";
-      let product = { id: req.params.id };
+      let product = { product_id: req.params.id };
       con.query(sql, product, (err, result) => {
         if (err) throw err;
         if (result.length !== 0) {
