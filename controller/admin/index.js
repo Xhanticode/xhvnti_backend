@@ -44,7 +44,7 @@ async function editProduct(req, res) {
       con.query(sql, product, (err, result) => {
         if (err) throw err;
         if (result.length !== 0) {
-          let updateSql = `UPDATE products SET ? WHERE id = ${req.params.id}`;
+          let updateSql = `UPDATE products SET ? WHERE product_id = ${req.params.id}`;
           let updateProduct = {
             title: req.body.title,
             img: req.body.img,
