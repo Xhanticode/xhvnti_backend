@@ -49,7 +49,7 @@ async function editProduct(req, res) {
             title: req.body.title,
             img: req.body.img,
             price: req.body.price,
-            color: req.body.color,
+            colour: req.body.colour,
             description: req.body.description,
             qty: req.body.qty,
             collection: req.body.collection,
