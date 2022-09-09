@@ -1,21 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-app.set("port", process.env.PORT || 5001);
-app.use(express.json());
-app.use(cors({
-  mode: 'no-cors',
-  origin: ['http://192.168.8.75:8080/', 'http://localhost:8080'],
-  credentials: true
-}));
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "*");
   next();
 });
-
-
+app.use(cors({
+  mode: 'no-cors',
+  origin: ['http://192.168.8.75:8080/', 'http://localhost:8080',
+  'https://xhvnti.co.za/'],
+  credentials: true
+}));
+app.use(express.json());
+app.set("port", process.env.PORT || 5001);
 app.get("/", (req, res) => {
   res.json({ msg: "X H V N T I" });
 });
