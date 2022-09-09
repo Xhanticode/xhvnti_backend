@@ -117,18 +117,15 @@ async function addCartItem (req, res) {
       con.query(strProd, async (err, results) => {
         if (err) throw err;
         let product = {
-          cartid: cart.length + 1,
-          id: results[0].id,
-          sku: results[0].sku,
-          name: results[0].name,
+          cart_id: cart.length + 1,
+          product_id: results[0].product_id,
+          title: results[0].title,
           price: results[0].price,
-          weight: results[0].weight,
-          descriptions: results[0].descriptions,
-          thumbnail: results[0].thumbnail,
-          image: results[0].image,
-          category: results[0].category,
-          create_date: results[0].create_date,
-          stock: results[0].stock,
+          qty: results[0].price,
+          description: results[0].description,
+          colour: results[0].colour,
+          img: results[0].img,
+          collection: results[0].collection,
         };
         cart.push(product);
         // res.send(cart)
@@ -157,7 +154,7 @@ async function deleteCartItem (req, res) {
   con.query(dcart, req.user.user_id, (err, results) => {
     if (err) throw err;
     let item = JSON.parse(results[0].cart).filter((x) => {
-      return x.cartid != req.params.product_id;
+      return x.cart_id != req.params.product_id;
     });
     // res.send(item)
     const strQry = `
@@ -182,7 +179,7 @@ async function deleteCartItem (req, res) {
 async function clearCart (req, res) {
   const dcart = `SELECT cart
     FROM users
-    WHERE id = ?`;
+    WHERE user_id = ?`;
   con.query(dcart, req.user.user_id, (err, results) => {
     // let cart =
   });
