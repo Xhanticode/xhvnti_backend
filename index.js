@@ -3,13 +3,18 @@ const cors = require("cors");
 const app = express();
 app.set("port", process.env.PORT || 5001);
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  mode: 'no-cors',
+  origin: ['http://192.168.8.75:8080/', 'http://localhost:8080'],
+  credentials: true
+}));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "*");
   next();
 });
+
 
 app.get("/", (req, res) => {
   res.json({ msg: "X H V N T I" });

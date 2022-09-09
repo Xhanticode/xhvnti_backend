@@ -61,20 +61,20 @@ router.put("/reset_user_psw/:id", (req, res) => {
 
 // Cart
 
+// View Cart
+router.get("/:id/cart", middleware, (req, res) => {
+  return userController.getCartItems(req, res);
+});
 // Add item
-router.post("/users/:id/cart", middleware, bodyParser.json(), (req, res) => {
+router.post("/:id/cart", middleware, bodyParser.json(), (req, res) => {
     return userController.addCartItem(req, res);
 });
 // Delete item
-router.delete("/users/:id/cart/:product_id", middleware, (req, res) => {
+router.delete("/:id/cart/:product_id", middleware, (req, res) => {
     return userController.deleteCartItem(req, res);
 });
-// View Cart
-router.get("/users/:id/cart", middleware, (req, res) => {
-  return userController.getCartItems(req, res);
-});
 // Clear all
-router.delete("/users/:id/cart", middleware, (req, res) => {
+router.delete("/:id/cart", middleware, (req, res) => {
   return userController.clearCart(req, res);
 });
 

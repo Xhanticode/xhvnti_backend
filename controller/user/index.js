@@ -1,10 +1,6 @@
 const con = require("../../lib/db_connection");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
-const bodyParser = require("body-parser");
-const express = require("express");
-const router = express.Router();
-const middleware = require("../../middleware/auth");
 
 // Add user
 async function addUser(req, res) {
@@ -70,21 +66,22 @@ async function getCartItems (req, res) {
     const strQuery = "SELECT cart FROM users WHERE user_id = ?";
     con.query(strQuery, [req.params.id], (err, results) => {
       if (err) throw err;
-      (function Check(a, b) {
-        a = parseInt(req.user.user_id);
-        b = parseInt(req.params.id);
-        if (a === b) {
-          //   res.send(results[0].cart);
-          //   console.log(results[0]);
-          res.json(JSON.parse(results[0].cart));
-        } else {
-          res.json({
-            a,
-            b,
-            msg: "Please Login To View cart",
-          });
-        }
-      })();
+      // (function Check(a, b) {
+      //   a = parseInt(req.user.user_id);
+      //   b = parseInt(req.params.id);
+      //   if (a === b) {
+      //     //   res.send(results[0].cart);
+      //     //   console.log(results[0]);
+      //     res.json(JSON.parse(results[0].cart));
+      //   } else {
+      //     res.json({
+      //       a,
+      //       b,
+      //       msg: "Please Login To View cart",
+      //     });
+      //   }
+      // });
+      res.send(results);
     });
   } catch (error) {
     throw error;
@@ -95,10 +92,7 @@ async function getCartItems (req, res) {
 async function addCartItem (req, res) {
   try {
     let { product_id } = req.body;
-    const qcart = `SELECT cart
-      FROM users
-      WHERE user_id = ?;
-      `;
+    const qcart = `SELECT cart FROM users WHERE user_id = ?;`;
     con.query(qcart, req.user.user_id, (err, results) => {
       if (err) throw err;
       let cart;
@@ -115,7 +109,7 @@ async function addCartItem (req, res) {
       WHERE product_id = ${product_id};
       `;
       con.query(strProd, async (err, results) => {
-        if (err) throw err;
+        if (err) throw err
         let product = {
           cart_id: cart.length + 1,
           product_id: results[0].product_id,
